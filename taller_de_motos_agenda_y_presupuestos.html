@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taller de Motos - Servicios & Agenda</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .bg-custom-dark { background-color: #0d1117; }
+        .bg-custom-card { background-color: #161b22; }
+        .border-custom { border-color: #30363d; }
+    </style>
+</head>
+<body class="bg-custom-dark text-gray-100 min-h-screen flex flex-col justify-between">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-50 bg-custom-dark/90 backdrop-blur-md border-b border-custom">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="bg-amber-500 text-black p-2.5 rounded-xl font-black text-xl flex items-center justify-center shadow-lg shadow-amber-500/20">
+                    <i class="fa-solid fa-motorcycle"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight text-white leading-tight">MOTO <span class="text-amber-500">PRO</span></h1>
+                    <p class="text-xs text-gray-400">Taller & Mantenimiento Especializado</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <button onclick="toggleQRModal()" class="flex items-center gap-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-400 border border-amber-500/30 px-3 py-1.5 rounded-lg text-sm font-semibold transition">
+                    <i class="fa-solid fa-qrcode"></i>
+                    <span class="hidden md:inline">Compartir / QR</span>
+                </button>
+                <a id="nav-ig-link" href="https://instagram.com" target="_blank" class="hidden sm:flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition">
+                    <i class="fa-brands fa-instagram text-lg"></i>
+                    <span>Instagram</span>
+                </a>
+                <a id="nav-ws-link" href="https://wa.me/5490000000000" target="_blank" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition shadow-md shadow-emerald-600/20">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span class="hidden sm:inline">WhatsApp</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-6xl mx-auto px-4 py-8 w-full space-y-12">
+
+        <!-- Hero Section -->
+        <section class="relative rounded-3xl overflow-hidden bg-gradient-to-br from-gray-900 via-custom-card to-amber-950/30 border border-custom p-6 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div class="space-y-4 max-w-xl">
+                <span class="inline-block bg-amber-500/10 text-amber-400 text-xs font-semibold px-3 py-1 rounded-full border border-amber-500/20">
+                    ⚡ Servicio Rápido y Diagnóstico Profesional
+                </span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white leading-tight">
+                    Mantené tu moto al <span class="text-amber-500">100%</span> sin complicaciones
+                </h2>
+                <p class="text-gray-300 text-sm sm:text-base">
+                    Reparaciones, servis completo, cambio de transmisión, distribución y lavados detallados. Agendá un turno para revisión en el taller o visita a domicilio.
+                </p>
+                <div class="pt-2 flex flex-wrap gap-4">
+                    <a href="#agendar" class="bg-amber-500 hover:bg-amber-400 text-black font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-amber-500/20 flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-check"></i> Agendar Turno
+                    </a>
+                    <a href="#presupuesto" class="bg-gray-800 hover:bg-gray-700 text-gray-200 border border-custom font-semibold px-6 py-3 rounded-xl transition flex items-center gap-2">
+                        <i class="fa-solid fa-calculator"></i> Estimar Costo
+                    </a>
+                </div>
+            </div>
+            
+            <div class="w-full md:w-80 bg-custom-dark/80 backdrop-blur border border-custom p-6 rounded-2xl space-y-4">
+                <h3 class="text-lg font-bold text-amber-400 flex items-center gap-2">
+                    <i class="fa-solid fa-wrench"></i> Datos del Taller
+                </h3>
+                <div class="space-y-3 text-sm text-gray-300">
+                    <div class="flex items-start gap-3">
+                        <i class="fa-solid fa-location-dot text-amber-500 mt-1"></i>
+                        <div>
+                            <p class="font-semibold text-white">Ubicación</p>
+                            <p id="taller-direccion" class="text-xs text-gray-400">Av. Principal 1234, Tu Ciudad</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <i class="fa-solid fa-clock text-amber-500 mt-1"></i>
+                        <div>
+                            <p class="font-semibold text-white">Horario de Atención</p>
+                            <p class="text-xs text-gray-400">Lun a Vie: 08:30 - 18:30</p>
+                            <p class="text-xs text-gray-400">Sábados: 09:00 - 13:00</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <i class="fa-solid fa-phone text-amber-500 mt-1"></i>
+                        <div>
+                            <p class="font-semibold text-white">Contacto Directo</p>
+                            <p id="taller-telefono" class="text-xs text-gray-400">+54 9 000 000-0000</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Servicios -->
+        <section id="servicios" class="space-y-6">
+            <div class="text-center max-w-xl mx-auto space-y-2">
+                <h3 class="text-2xl sm:text-3xl font-extrabold text-white">Nuestros Servicios</h3>
+                <p class="text-gray-400 text-sm">Trabajamos con todas las marcas y cilindradas. Calidad garantizada.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="bg-custom-card border border-custom p-6 rounded-2xl hover:border-amber-500/50 transition group">
+                    <div class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-oil-can"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-white mb-2">Servis Completo</h4>
+                    <p class="text-xs text-gray-400">Cambio de aceite, filtros, bujía, ajuste de frenos, lubricación general y revisión de puntos de seguridad.</p>
+                </div>
+
+                <div class="bg-custom-card border border-custom p-6 rounded-2xl hover:border-amber-500/50 transition group">
+                    <div class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-gears"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-white mb-2">Transmisión</h4>
+                    <p class="text-xs text-gray-400">Cambio de kit de transmisión (cadena, corona y piñón), estirado, alineación y lubricación intensiva.</p>
+                </div>
+
+                <div class="bg-custom-card border border-custom p-6 rounded-2xl hover:border-amber-500/50 transition group">
+                    <div class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-engine"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-white mb-2">Distribución & Motor</h4>
+                    <p class="text-xs text-gray-400">Cambio de cadena/correa de distribución, regulación de válvulas y reparación integral de motor.</p>
+                </div>
+
+                <div class="bg-custom-card border border-custom p-6 rounded-2xl hover:border-amber-500/50 transition group">
+                    <div class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-shower"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-white mb-2">Lavado Detallado</h4>
+                    <p class="text-xs text-gray-400">Lavado técnico con desengrasado de transmisión, secado con aire a presión y siliconado protector.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Simulador de Presupuesto -->
+        <section id="presupuesto" class="bg-custom-card border border-custom rounded-3xl p-6 sm:p-8 space-y-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-custom pb-4">
+                <div>
+                    <h3 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-calculator text-amber-500"></i> Calculadora Estimativa de Servicio
+                    </h3>
+                    <p class="text-xs text-gray-400">Seleccioná los trabajos que necesita tu moto para obtener un estimado.</p>
+                </div>
+                <div class="text-amber-400 text-xs bg-amber-500/10 px-3 py-1.5 rounded-lg border border-amber-500/20">
+                    * Los precios son orientativos y se confirman en la revisión.
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="presupuesto-options">
+                <!-- Opciones JS -->
+            </div>
+
+            <div class="bg-custom-dark p-5 rounded-2xl border border-custom flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div>
+                    <span class="text-xs text-gray-400 uppercase tracking-wider font-semibold">Estimación Total</span>
+                    <p class="text-3xl font-black text-amber-500" id="total-estimado">$0</p>
+                </div>
+                <button onclick="transferToBooking()" class="w-full sm:w-auto bg-amber-500 hover:bg-amber-400 text-black font-bold px-6 py-3 rounded-xl transition flex items-center justify-center gap-2">
+                    <span>Agendar con esta selección</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- Formulario de Agendamiento -->
+        <section id="agendar" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <div class="lg:col-span-7 bg-custom-card border border-custom p-6 sm:p-8 rounded-3xl space-y-6">
+                <div>
+                    <h3 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-plus text-amber-500"></i> Solicitud de Turno
+                    </h3>
+                    <p class="text-xs text-gray-400">Completá los datos y la fecha para agendar tu visita o revisión.</p>
+                </div>
+
+                <form id="booking-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1">Nombre Completo *</label>
+                            <input type="text" id="cliente-nombre" required class="w-full bg-custom-dark border border-custom rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 transition" placeholder="Ej: Carlos Gómez">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1">Teléfono / WhatsApp *</label>
+                            <input type="tel" id="cliente-telefono" required class="w-full bg-custom-dark border border-custom rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 transition" placeholder="Ej: 343 1234567">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1">Modelo de Moto y Cilindrada *</label>
+                            <input type="text" id="moto-modelo" required class="w-full bg-custom-dark border border-custom rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 transition" placeholder="Ej: Honda Wave 110 / Yamaha FZ 160">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1">Modalidad de Visita *</label>
+                            <select id="modalidad-visita" onchange="toggleDomicilioInput()" required class="w-full bg-custom-dark border border-custom rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 transition">
+                                <option value="Taller">Llevo la moto al Taller</option>
+                                <option value="Domicilio">Visita a Domicilio (Revisión/Presupuesto)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="domicilio-container" class="hidden">
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">Dirección para la visita *</label>
+                        <input type="text" id="cliente-direccion" class="w-full bg-custom-dark border border-custom rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 transition" placeholder="Calle, Número y Barrio">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1">Fecha Deseada *</label>
+                            <input type="date" id="fecha-turno" required class="w-full bg-custom-dark border border-custom rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1">Horario Preferido *</label>
+                            <select id="hora-turno" required class="w-full bg-custom-dark border border-custom rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 transition">
+                                <option value="Mañana (09:00 - 12:00)">Mañana (09:00 - 12:00)</option>
+                                <option value="Tarde (14:00 - 18:00)">Tarde (14:00 - 18:00)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">Detalle del problema o trabajo a realizar</label>
+                        <textarea id="cliente-notas" rows="3" class="w-full bg-custom-dark border border-custom rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 transition" placeholder="Ej: Hace un ruido raro en la transmisión, o necesito hacerle el servis de los 10.000km..."></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 text-base">
+                        <i class="fa-brands fa-whatsapp text-xl"></i> Enviar Solicitud por WhatsApp
+                    </button>
+                </form>
+            </div>
+
+            <div class="lg:col-span-5 space-y-6">
+                <!-- Card Redes y Contacto -->
+                <div class="bg-custom-card border border-custom p-6 rounded-3xl space-y-4">
+                    <h4 class="text-xl font-bold text-white">Canales de Atención Directa</h4>
+                    <p class="text-xs text-gray-400">Si tenés una urgencia o consulta rápida, podés escribirnos directamente:</p>
+
+                    <div class="space-y-3 pt-2">
+                        <a id="card-ws-btn" href="https://wa.me/5490000000000" target="_blank" class="flex items-center justify-between bg-emerald-950/40 border border-emerald-600/30 hover:border-emerald-500 p-4 rounded-2xl transition group">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-emerald-600/20 text-emerald-400 rounded-xl flex items-center justify-center text-xl">
+                                    <i class="fa-brands fa-whatsapp"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-white text-sm">WhatsApp Directo</p>
+                                    <p class="text-xs text-emerald-400">Respuesta inmediata</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-gray-500 group-hover:text-white transition"></i>
+                        </a>
+
+                        <a id="card-ig-btn" href="https://instagram.com" target="_blank" class="flex items-center justify-between bg-purple-950/40 border border-purple-600/30 hover:border-purple-500 p-4 rounded-2xl transition group">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-purple-600/20 text-purple-400 rounded-xl flex items-center justify-center text-xl">
+                                    <i class="fa-brands fa-instagram"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-white text-sm">Síguenos en Instagram</p>
+                                    <p class="text-xs text-purple-400">Mira nuestros trabajos diarios</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-gray-500 group-hover:text-white transition"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card Configuración de Datos Taller -->
+                <div class="bg-custom-card border border-custom p-6 rounded-3xl space-y-3">
+                    <h4 class="text-sm font-bold text-amber-400 flex items-center gap-2">
+                        <i class="fa-solid fa-gear"></i> Personalizar tus Datos & Compartir
+                    </h4>
+                    <p class="text-xs text-gray-400">Ingresá tu número real e Instagram abajo para actualizar los links de esta página instantáneamente:</p>
+                    
+                    <div class="space-y-2 pt-1">
+                        <div>
+                            <label class="text-xs text-gray-400">Tu número WhatsApp (Con código país, Ej: 549343123456)</label>
+                            <input type="text" id="config-phone" placeholder="549343123456" class="w-full bg-custom-dark border border-custom rounded-lg px-3 py-1.5 text-xs text-white">
+                        </div>
+                        <div>
+                            <label class="text-xs text-gray-400">Tu usuario de Instagram (sin @)</label>
+                            <input type="text" id="config-ig" placeholder="mi.taller.motos" class="w-full bg-custom-dark border border-custom rounded-lg px-3 py-1.5 text-xs text-white">
+                        </div>
+                        <div class="pt-2 flex gap-2">
+                            <button onclick="saveConfig()" class="flex-1 bg-amber-500 text-black font-bold py-2 rounded-lg text-xs hover:bg-amber-400 transition">
+                                Guardar Datos
+                            </button>
+                            <button onclick="toggleQRModal()" class="flex-1 bg-custom-dark border border-amber-500/40 text-amber-400 font-bold py-2 rounded-lg text-xs hover:bg-amber-500/10 transition flex items-center justify-center gap-1">
+                                <i class="fa-solid fa-qrcode"></i> Ver QR / Enlace
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Modal QR y Compartir -->
+    <div id="qr-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-custom-card border border-custom rounded-3xl p-6 max-w-sm w-full text-center space-y-5 relative">
+            <button onclick="toggleQRModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="space-y-1">
+                <h3 class="text-xl font-bold text-white flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-qrcode text-amber-500"></i> Tu QR & Link Directo
+                </h3>
+                <p class="text-xs text-gray-400">Usalo en tu perfil de Instagram o compartilo por WhatsApp.</p>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl inline-block shadow-xl">
+                <img id="qr-code-img" src="" alt="Código QR del Taller" class="w-48 h-48 mx-auto">
+            </div>
+
+            <div class="space-y-2">
+                <label class="text-xs text-gray-400 block text-left">Link de tu web:</label>
+                <div class="flex gap-2">
+                    <input type="text" id="page-url-input" readonly class="w-full bg-custom-dark border border-custom rounded-lg px-3 py-1.5 text-xs text-amber-400 focus:outline-none">
+                    <button onclick="copyPageLink()" class="bg-amber-500 hover:bg-amber-400 text-black font-bold px-3 py-1.5 rounded-lg text-xs transition flex items-center gap-1">
+                        <i class="fa-solid fa-copy"></i>
+                        <span>Copiar</span>
+                    </button>
+                </div>
+                <p id="copy-status" class="text-xs text-emerald-400 hidden">¡Enlace copiado al portapapeles!</p>
+            </div>
+
+            <div class="pt-2 text-xs text-gray-500 border-t border-custom">
+                Tip: Pegá este enlace en la bio de tu Instagram en "Agregar enlace / sitio web".
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-custom-card border-t border-custom py-6 mt-12 text-center text-xs text-gray-500">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p>© <span id="year"></span> Moto Pro - Taller & Mantenimiento. Todos los derechos reservados.</p>
+            <div class="flex gap-4">
+                <a href="#servicios" class="hover:text-gray-300">Servicios</a>
+                <a href="#presupuesto" class="hover:text-gray-300">Presupuestos</a>
+                <a href="#agendar" class="hover:text-gray-300">Turnos</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Configuración inicial por defecto
+        let workshopData = {
+            phone: '5493430000000', // Reemplazar con teléfono real
+            instagram: 'tallerdemotos' // Reemplazar con usuario real de Instagram
+        };
+
+        // Lista de Servicios con Precios Orientativos
+        const serviciosConfig = [
+            { id: 'servis', name: 'Servis General Integrado', price: 15000, desc: 'Aceite, filtros, bujía y chequeo de 20 puntos.' },
+            { id: 'transmision', name: 'Cambio de Transmisión', price: 8000, desc: 'Instalación de kit piñón, corona y cadena.' },
+            { id: 'distribucion', name: 'Servicio de Distribución', price: 20000, desc: 'Cadena de distribución y regulación de válvulas.' },
+            { id: 'lavado', name: 'Lavado Premium y Engrase', price: 5000, desc: 'Desengrasado completo y lubricación.' },
+            { id: 'frenos', name: 'Mantenimiento de Frenos', price: 6000, desc: 'Cambio de pastillas/zapatas y purgado.' },
+            { id: 'diagnostico', name: 'Diagnóstico / Revisión Inicial', price: 4000, desc: 'Evaluación técnica general del vehículo.' }
+        ];
+
+        let selectedServices = new Set();
+
+        // Inicialización al cargar la página
+        window.onload = function() {
+            document.getElementById('year').textContent = new Date().getFullYear();
+            
+            // Cargar datos del localStorage si existen
+            const savedPhone = localStorage.getItem('moto_phone');
+            const savedIg = localStorage.getItem('moto_ig');
+            if (savedPhone) workshopData.phone = savedPhone;
+            if (savedIg) workshopData.instagram = savedIg;
+
+            document.getElementById('config-phone').value = workshopData.phone;
+            document.getElementById('config-ig').value = workshopData.instagram;
+
+            updateLinks();
+            renderPresupuestoOptions();
+            setupQRModal();
+
+            // Establecer fecha mínima para el turno (hoy)
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('fecha-turno').setAttribute('min', today);
+        };
+
+        // Generación de QR y Modal
+        function setupQRModal() {
+            const currentUrl = window.location.href;
+            document.getElementById('page-url-input').value = currentUrl;
+            
+            // Usamos API de QR pública para generar el código dinámicamente
+            const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(currentUrl)}`;
+            document.getElementById('qr-code-img').src = qrApiUrl;
+        }
+
+        function toggleQRModal() {
+            const modal = document.getElementById('qr-modal');
+            modal.classList.toggle('hidden');
+        }
+
+        function copyPageLink() {
+            const input = document.getElementById('page-url-input');
+            input.select();
+            document.execCommand('copy');
+
+            const status = document.getElementById('copy-status');
+            status.classList.remove('hidden');
+            setTimeout(() => {
+                status.classList.add('hidden');
+            }, 2500);
+        }
+
+        // Renderizar opciones de presupuesto
+        function renderPresupuestoOptions() {
+            const container = document.getElementById('presupuesto-options');
+            container.innerHTML = '';
+
+            serviciosConfig.forEach(serv => {
+                const card = document.createElement('div');
+                card.className = `p-4 rounded-xl border cursor-pointer transition flex justify-between items-start ${
+                    selectedServices.has(serv.id) 
+                    ? 'bg-amber-500/10 border-amber-500 text-white' 
+                    : 'bg-custom-dark border-custom text-gray-300 hover:border-gray-600'
+                }`;
+                card.onclick = () => toggleService(serv.id);
+
+                card.innerHTML = `
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" ${selectedServices.has(serv.id) ? 'checked' : ''} class="rounded border-gray-700 text-amber-500 focus:ring-amber-500">
+                            <span class="font-bold text-sm">${serv.name}</span>
+                        </div>
+                        <p class="text-xs text-gray-400">${serv.desc}</p>
+                    </div>
+                    <span class="font-bold text-amber-400 text-sm">$${serv.price.toLocaleString()}</span>
+                `;
+                container.appendChild(card);
+            });
+
+            calculateTotal();
+        }
+
+        function toggleService(id) {
+            if (selectedServices.has(id)) {
+                selectedServices.delete(id);
+            } else {
+                selectedServices.add(id);
+            }
+            renderPresupuestoOptions();
+        }
+
+        function calculateTotal() {
+            let total = 0;
+            selectedServices.forEach(id => {
+                const serv = serviciosConfig.find(s => s.id === id);
+                if (serv) total += serv.price;
+            });
+            document.getElementById('total-estimado').textContent = `$${total.toLocaleString()}`;
+        }
+
+        function toggleDomicilioInput() {
+            const modalidad = document.getElementById('modalidad-visita').value;
+            const container = document.getElementById('domicilio-container');
+            const input = document.getElementById('cliente-direccion');
+
+            if (modalidad === 'Domicilio') {
+                container.classList.remove('hidden');
+                input.required = true;
+            } else {
+                container.classList.add('hidden');
+                input.required = false;
+            }
+        }
+
+        function transferToBooking() {
+            const selectedNames = Array.from(selectedServices)
+                .map(id => serviciosConfig.find(s => s.id === id)?.name)
+                .filter(Boolean);
+
+            if (selectedNames.length > 0) {
+                document.getElementById('cliente-notas').value = `Servicios seleccionados en presupuesto:\n- ${selectedNames.join('\n- ')}`;
+            }
+            
+            document.getElementById('agendar').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function saveConfig() {
+            const phoneInput = document.getElementById('config-phone').value.trim();
+            const igInput = document.getElementById('config-ig').value.trim();
+
+            if (phoneInput) workshopData.phone = phoneInput;
+            if (igInput) workshopData.instagram = igInput;
+
+            localStorage.setItem('moto_phone', workshopData.phone);
+            localStorage.setItem('moto_ig', workshopData.instagram);
+
+            updateLinks();
+            alert('¡Datos de contacto actualizados correctamente!');
+        }
+
+        function updateLinks() {
+            const wsUrl = `https://wa.me/${workshopData.phone}`;
+            const igUrl = `https://instagram.com/${workshopData.instagram}`;
+
+            document.getElementById('nav-ws-link').href = wsUrl;
+            document.getElementById('card-ws-btn').href = wsUrl;
+            document.getElementById('taller-telefono').textContent = `+${workshopData.phone}`;
+
+            document.getElementById('nav-ig-link').href = igUrl;
+            document.getElementById('card-ig-btn').href = igUrl;
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+
+            const nombre = document.getElementById('cliente-nombre').value;
+            const telefono = document.getElementById('cliente-telefono').value;
+            const modelo = document.getElementById('moto-modelo').value;
+            const modalidad = document.getElementById('modalidad-visita').value;
+            const direccion = document.getElementById('cliente-direccion').value;
+            const fecha = document.getElementById('fecha-turno').value;
+            const hora = document.getElementById('hora-turno').value;
+            const notas = document.getElementById('cliente-notas').value;
+
+            let mensaje = `Hola! Quisiera solicitar un turno para mi moto:\n\n`;
+            mensaje += `👤 *Cliente:* ${nombre}\n`;
+            mensaje += `📞 *Teléfono:* ${telefono}\n`;
+            mensaje += `🏍️ *Moto / Modelo:* ${modelo}\n`;
+            mensaje += `📍 *Modalidad:* ${modalidad}${modalidad === 'Domicilio' ? ` (${direccion})` : ''}\n`;
+            mensaje += `📅 *Fecha Solicitada:* ${fecha}\n`;
+            mensaje += `⏰ *Horario Preferido:* ${hora}\n`;
+            
+            if (notas) {
+                mensaje += `📝 *Detalles/Trabajo:* ${notas}\n`;
+            }
+
+            const totalEst = document.getElementById('total-estimado').textContent;
+            if (totalEst !== '$0') {
+                mensaje += `💰 *Presupuesto Estimado Web:* ${totalEst}\n`;
+            }
+
+            const url = `https://wa.me/${workshopData.phone}?text=${encodeURIComponent(mensaje)}`;
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>
