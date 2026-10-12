@@ -1,233 +1,384 @@
 
 <!DOCTYPE html>
 <html lang="es">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#111111">
-  <title>Taller de Motos | Turnos y Presupuestos</title>
+  <title>Garage Motors | Taller de Motos</title>
+  <meta name="description" content="Solicitá una visita, revisión o presupuesto para tu moto.">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #101010;
-      color: #fff;
+      background: #101114;
+      color: #f5f5f5;
+      line-height: 1.6;
     }
+
     header {
+      background: #08090b;
       padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #181818;
-      border-bottom: 2px solid #e63924;
+      text-align: center;
+      border-bottom: 3px solid #e63927;
     }
-    header strong { font-size: 19px; }
-    header a { color: #fff; text-decoration: none; }
-    .hero {
+
+    header h1 {
+      margin: 0;
+      font-size: 32px;
+      letter-spacing: 2px;
+    }
+
+    header p { color: #bbb; margin-bottom: 0; }
+
+    .portada {
       min-height: 350px;
       padding: 65px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
       background:
-        linear-gradient(#000b, #000d),
-        url("https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1600&q=85")
+        linear-gradient(#0009, #000b),
+        url("https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1600&q=80")
         center/cover;
     }
-    .hero h1 { font-size: clamp(32px, 6vw, 54px); margin: 15px 0; }
-    .hero p { color: #ddd; font-size: 18px; }
-    .btn {
-      display: inline-block;
-      border: 0;
-      background: #e63924;
-      color: white;
-      padding: 14px 22px;
-      border-radius: 7px;
-      text-decoration: none;
-      font-weight: bold;
-      cursor: pointer;
+
+    .portada h2 {
+      font-size: clamp(30px, 5vw, 48px);
+      margin: 0 0 10px;
     }
-    main { max-width: 850px; margin: auto; padding: 25px 18px; }
-    h2 { margin-top: 15px; }
-    .services {
+
+    .portada p { font-size: 18px; }
+
+    .contenedor {
+      width: min(1000px, 92%);
+      margin: 35px auto;
+    }
+
+    h2.seccion { text-align: center; margin-bottom: 25px; }
+
+    .servicios {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-      gap: 14px;
-      margin: 22px 0 35px;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
     }
-    .service {
-      padding: 20px;
-      background: #1d1d1d;
-      border: 1px solid #333;
-      border-radius: 10px;
-    }
-    .service span { font-size: 28px; }
-    form {
-      background: #1b1b1b;
+
+    .servicio, .formulario {
+      background: #1b1d22;
       padding: 22px;
       border-radius: 12px;
-      border: 1px solid #333;
+      border: 1px solid #33363d;
     }
-    label { display: block; margin: 15px 0 7px; }
+
+    .servicio h3 { color: #ff5544; }
+
+    form {
+      display: grid;
+      gap: 15px;
+    }
+
+    label { font-weight: bold; }
+
     input, select, textarea {
       width: 100%;
-      padding: 12px;
-      border-radius: 6px;
-      border: 1px solid #555;
-      background: #292929;
+      margin-top: 6px;
+      padding: 13px;
+      border-radius: 7px;
+      border: 1px solid #444;
+      background: #101114;
       color: white;
-      font: inherit;
+      font-size: 16px;
     }
-    textarea { min-height: 95px; resize: vertical; }
-    .note { color: #bbb; font-size: 13px; line-height: 1.5; }
-    form button { width: 100%; margin-top: 20px; font-size: 16px; }
+
+    button {
+      border: 0;
+      padding: 15px;
+      border-radius: 8px;
+      background: #e63927;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:disabled { opacity: 0.6; cursor: wait; }
+
+    .aviso { color: #bbb; font-size: 14px; }
+
     footer {
       text-align: center;
-      padding: 25px;
-      background: #181818;
+      background: #08090b;
       color: #aaa;
-      margin-top: 30px;
+      padding: 20px;
+      margin-top: 45px;
     }
   </style>
 </head>
+
 <body>
   <header>
-    <strong>🔧 TALLER DE MOTOS</strong>
-    <a href="#turnos">Reservar visita</a>
+    <h1>GARAGE MOTORS</h1>
+    <p>Taller de motos · Tu moto en buenas manos</p>
   </header>
 
-  <section class="hero">
-    <p>MECÁNICA · REVISIÓN · MANTENIMIENTO</p>
-    <h1>Tu moto en buenas manos</h1>
-    <p>Solicitá una visita técnica o coordiná tu turno en el taller.</p>
-    <a class="btn" href="#turnos">SOLICITAR TURNO</a>
+  <section class="portada">
+    <div>
+      <h2>Cuidamos tu moto</h2>
+      <p>Revisión, mantenimiento y presupuesto para que vuelvas a la ruta.</p>
+      <a href="#turnos" style="color:white;">Solicitá tu visita ↓</a>
+    </div>
   </section>
 
   <main>
-    <h2>Nuestros servicios</h2>
-    <div class="services">
-      <div class="service">
-        <span>🔧</span>
-        <h3>Visita técnica</h3>
-        <p>Coordiná una revisión de tu moto en el lugar que nos indiques.</p>
+    <section class="contenedor">
+      <h2 class="seccion">Nuestros servicios</h2>
+      <div class="servicios">
+        <article class="servicio">
+          <h3>Revisión de moto</h3>
+          <p>Revisamos tu moto para identificar posibles fallas y necesidades de mantenimiento.</p>
+        </article>
+        <article class="servicio">
+          <h3>Presupuesto estimado</h3>
+          <p>Contanos qué problema tiene tu moto para coordinar una evaluación.</p>
+        </article>
+        <article class="servicio">
+          <h3>Visita al taller</h3>
+          <p>Elegí el día y horario que te resulte conveniente para acercarte al taller.</p>
+        </article>
       </div>
-      <div class="service">
-        <span>📝</span>
-        <h3>Presupuesto estimado</h3>
-        <p>Contanos qué problema tiene tu moto para evaluar el trabajo.</p>
+    </section>
+
+    <section class="contenedor" id="turnos">
+      <h2 class="seccion">Solicitar un turno</h2>
+
+      <div class="formulario">
+        <form id="formTurno">
+          <label>
+            Nombre y apellido
+            <input id="nombre" type="text" required maxlength="100" placeholder="Tu nombre">
+          </label>
+
+          <label>
+            Teléfono
+            <input id="telefono" type="tel" required maxlength="30" placeholder="Tu número de contacto">
+          </label>
+
+          <label>
+            ¿Qué necesitás?
+            <select id="servicio" required>
+              <option value="">Elegí un servicio</option>
+              <option value="Visita técnica a domicilio">Visita técnica a domicilio</option>
+              <option value="Presupuesto estimado">Presupuesto estimado</option>
+              <option value="Visita al taller">Visita al taller</option>
+            </select>
+          </label>
+
+          <label>
+            Marca y modelo de la moto
+            <input id="moto" type="text" required maxlength="100" placeholder="Ej.: Honda GLH 150">
+          </label>
+
+          <label>
+            Día de la visita
+            <input id="fecha" type="date" required>
+          </label>
+
+          <label>
+            Horario disponible
+            <select id="hora" required>
+              <option value="">Primero elegí una fecha</option>
+            </select>
+          </label>
+
+          <label>
+            Describí el problema o consulta
+            <textarea id="detalle" rows="4" maxlength="1000" placeholder="Contanos qué le pasa a tu moto..."></textarea>
+          </label>
+
+          <p class="aviso">La solicitud queda pendiente de confirmación del taller. Los horarios ocupados no se pueden seleccionar.</p>
+
+          <button type="submit">SOLICITAR TURNO POR WHATSAPP</button>
+        </form>
       </div>
-      <div class="service">
-        <span>🏍️</span>
-        <h3>Visita al taller</h3>
-        <p>Elegí una fecha para acercarte con tu moto.</p>
-      </div>
-    </div>
-
-    <section id="turnos">
-      <h2>Solicitá tu turno</h2>
-      <p>Completá tus datos y coordinaremos la visita con vos.</p>
-
-      <form id="formTurno">
-        <label for="nombre">Nombre y apellido *</label>
-        <input id="nombre" required placeholder="Tu nombre">
-
-        <label for="telefono">Tu teléfono *</label>
-        <input id="telefono" type="tel" required placeholder="Tu número de contacto">
-
-        <label for="servicio">Tipo de visita *</label>
-        <select id="servicio" required>
-          <option value="">Seleccioná una opción</option>
-          <option>Visita técnica a domicilio</option>
-          <option>Presupuesto estimado</option>
-          <option>Visita al taller</option>
-        </select>
-
-        <label for="moto">Moto (marca, modelo y cilindrada)</label>
-        <input id="moto" placeholder="Ej.: Guerrero Trip 110">
-
-        <label for="fecha">Fecha preferida *</label>
-        <input id="fecha" type="date" required>
-
-        <label for="hora">Horario preferido *</label>
-        <select id="hora" required>
-          <option value="">Elegí un horario</option>
-          <option>08:00</option>
-          <option>09:00</option>
-          <option>10:00</option>
-          <option>11:00</option>
-          <option>14:00</option>
-          <option>15:00</option>
-          <option>16:00</option>
-          <option>17:00</option>
-        </select>
-
-        <label for="detalle">¿Qué necesita tu moto?</label>
-        <textarea id="detalle" placeholder="Contanos el problema o el trabajo que necesitás."></textarea>
-
-        <p class="note">
-          La fecha y el horario son una solicitud, no una reserva confirmada.
-          El taller deberá confirmar la disponibilidad por WhatsApp.
-        </p>
-
-        <button class="btn" type="submit">ENVIAR SOLICITUD POR WHATSAPP</button>
-      </form>
     </section>
   </main>
 
   <footer>
-    <p>© <span id="anio"></span> Taller de Motos</p>
-    <p>Trabajamos para que vuelvas a la ruta con confianza.</p>
+    Garage Motors · © <span id="anio"></span>
   </footer>
 
   <script>
-    // REEMPLAZÁ este número por tu WhatsApp con código de país.
-    // Argentina: 549 + código de área sin 0 + número sin 15.
-    const WHATSAPP = "543434619326";
+    // 1. PEGÁ AQUÍ LA URL DE TU PROYECTO SUPABASE
+    const SUPABASE_URL = "PEGÁ_TU_PROJECT_URL";
 
-    document.getElementById("anio").textContent =
-      new Date().getFullYear();
+    // 2. PEGÁ AQUÍ TU CLAVE PÚBLICA (publishable o anon)
+    // NO uses la clave secreta ni service_role.
+    const SUPABASE_KEY = "PEGÁ_TU_CLAVE_PUBLICA";
 
-    const fecha = document.getElementById("fecha");
-    const hoy = new Date();
-    const yyyy = hoy.getFullYear();
-    const mm = String(hoy.getMonth() + 1).padStart(2, "0");
-    const dd = String(hoy.getDate()).padStart(2, "0");
-    fecha.min = `${yyyy}-${mm}-${dd}`;
+    // Número de WhatsApp del taller
+    const WHATSAPP = "5493434619326";
 
-    document.getElementById("formTurno").addEventListener("submit", function(e) {
+    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const fechaInput = document.getElementById("fecha");
+    const horaSelect = document.getElementById("hora");
+    const form = document.getElementById("formTurno");
+    const boton = form.querySelector('button[type="submit"]');
+
+    document.getElementById("anio").textContent = new Date().getFullYear();
+
+    const horarios = [
+      "08:00", "09:00", "10:00", "11:00",
+      "14:00", "15:00", "16:00", "17:00"
+    ];
+
+    function actualizarFechaMinima() {
+      const hoy = new Date();
+      fechaInput.min =
+        hoy.getFullYear() + "-" +
+        String(hoy.getMonth() + 1).padStart(2, "0") + "-" +
+        String(hoy.getDate()).padStart(2, "0");
+    }
+
+    function mostrarHorarios(ocupados = []) {
+      const anterior = horaSelect.value;
+      horaSelect.innerHTML = '<option value="">Elegí un horario</option>';
+
+      horarios.forEach(hora => {
+        const ocupado = ocupados.includes(hora);
+        const opcion = document.createElement("option");
+
+        opcion.value = hora;
+        opcion.textContent = ocupado ? hora + " (Ocupado)" : hora;
+        opcion.disabled = ocupado;
+        horaSelect.appendChild(opcion);
+      });
+
+      if (anterior && !ocupados.includes(anterior)) {
+        horaSelect.value = anterior;
+      }
+    }
+
+    async function cargarHorarios() {
+      mostrarHorarios();
+
+      if (!fechaInput.value) return;
+
+      horaSelect.disabled = true;
+
+      try {
+        const { data, error } = await db
+          .from("turnos")
+          .select("hora")
+          .eq("fecha", fechaInput.value);
+
+        if (error) throw error;
+
+        mostrarHorarios(
+          data.map(turno => String(turno.hora).slice(0, 5))
+        );
+      } catch (error) {
+        console.error(error);
+        alert("No se pudieron consultar los horarios. Revisá Supabase e intentá nuevamente.");
+      } finally {
+        horaSelect.disabled = false;
+      }
+    }
+
+    actualizarFechaMinima();
+    mostrarHorarios();
+
+    fechaInput.addEventListener("change", cargarHorarios);
+
+    form.addEventListener("submit", async function(e) {
       e.preventDefault();
 
-      if (WHATSAPP.includes("X")) {
-        alert("Primero configurá el número de WhatsApp en el código de la página.");
+      if (
+        SUPABASE_URL.includes("PEGÁ_TU_") ||
+        SUPABASE_KEY.includes("PEGÁ_TU_")
+      ) {
+        alert("Falta completar la URL y la clave pública de Supabase en el código.");
         return;
       }
+
+      actualizarFechaMinima();
 
       const datos = {
         nombre: document.getElementById("nombre").value.trim(),
         telefono: document.getElementById("telefono").value.trim(),
         servicio: document.getElementById("servicio").value,
-        moto: document.getElementById("moto").value.trim() || "No especificada",
-        fecha: document.getElementById("fecha").value,
-        hora: document.getElementById("hora").value,
+        moto: document.getElementById("moto").value.trim(),
+        fecha: fechaInput.value,
+        hora: horaSelect.value,
         detalle: document.getElementById("detalle").value.trim() || "Sin detalles"
       };
 
-      if (datos.fecha < fecha.min) {
-        alert("Elegí una fecha de hoy en adelante.");
+      if (!datos.fecha || datos.fecha < fechaInput.min || !datos.hora) {
+        alert("Elegí una fecha válida y un horario disponible.");
         return;
       }
 
-      const mensaje =
-        "Hola, quiero solicitar una visita para mi moto.%0A" +
-        "Nombre: " + encodeURIComponent(datos.nombre) + "%0A" +
-        "Teléfono: " + encodeURIComponent(datos.telefono) + "%0A" +
-        "Servicio: " + encodeURIComponent(datos.servicio) + "%0A" +
-        "Moto: " + encodeURIComponent(datos.moto) + "%0A" +
-        "Fecha preferida: " + encodeURIComponent(datos.fecha) + "%0A" +
-        "Horario preferido: " + encodeURIComponent(datos.hora) + "%0A" +
-        "Detalle: " + encodeURIComponent(datos.detalle);
+      boton.disabled = true;
+      const textoOriginal = boton.textContent;
+      boton.textContent = "REGISTRANDO TURNO...";
 
-      window.open("https://wa.me/" + WHATSAPP + "?text=" + mensaje, "_blank");
+      try {
+        const { error } = await db
+          .from("turnos")
+          .insert([{
+            fecha: datos.fecha,
+            hora: datos.hora,
+            servicio: datos.servicio
+          }]);
+
+        if (error) {
+          if (error.code === "23505") {
+            alert("Ese horario acaba de ser reservado por otra persona. Elegí otro.");
+          } else {
+            console.error(error);
+            alert("No se pudo guardar el turno. Revisá la configuración de Supabase.");
+          }
+
+          await cargarHorarios();
+          return;
+        }
+
+        const mensaje = [
+          "Hola, quiero coordinar una visita para mi moto.",
+          "Nombre: " + datos.nombre,
+          "Teléfono: " + datos.telefono,
+          "Servicio: " + datos.servicio,
+          "Moto: " + datos.moto,
+          "Fecha solicitada: " + datos.fecha,
+          "Horario solicitado: " + datos.hora,
+          "Detalle: " + datos.detalle,
+          "Solicitud registrada, pendiente de confirmación del taller."
+        ].join("\n");
+
+        window.open(
+          "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(mensaje),
+          "_blank"
+        );
+
+        alert("La solicitud se guardó. El taller debe confirmar el turno.");
+
+        form.reset();
+        actualizarFechaMinima();
+        mostrarHorarios();
+
+      } catch (error) {
+        console.error(error);
+        alert("Hubo un problema de conexión. Intentá nuevamente.");
+        await cargarHorarios();
+      } finally {
+        boton.disabled = false;
+        boton.textContent = textoOriginal;
+      }
     });
   </script>
 </body>
