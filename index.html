@@ -327,14 +327,22 @@
       const textoOriginal = boton.textContent;
       boton.textContent = "REGISTRANDO TURNO...";
 
-      try {
-        const { error } = await db
-          .from("turnos")
-          .insert([{
-            fecha: datos.fecha,
-            hora: datos.hora,
-            servicio: datos.servicio
-          }]);
+
+try {
+  const { error } = await db
+    .from("turnos")
+    .insert([{
+      fecha: datos.fecha,
+      hora: datos.hora,
+      servicio: datos.servicio,
+      nombre: datos.nombre,
+      telefono: datos.telefono,
+      moto: datos.moto,
+      detalle: datos.detalle
+    }]);
+
+  if (error) throw error;
+
 
         if (error) {
           if (error.code === "23505") {
